@@ -82,14 +82,19 @@ def train(config):
 
     torch.manual_seed(10)
     # Initialize the model and optimizer
+    fabric.print("Initializing model and optimizer...")
     model = SmallResNet(**config)
+    fabric.print("Model initialized.")
     criterion = nn.CrossEntropyLoss()
+    fabric.print("Criterion initialized.")
     optimizer = optim.AdamW(model.parameters(), lr=config.lr)
+    fabric.print("Optimizer initialized.")
 
     # Get the dataloaders
     train_loader, test_loader = get_dataloaders(
         config.data_dir, config.batch_size
     )
+    fabric.print("Dataloaders initialized.")
 
     model, optimizer = fabric.setup(model, optimizer)
     train_loader, test_loader = fabric.setup_dataloaders(
