@@ -10,4 +10,4 @@ num_classes: 1000
 
 epochs: 30
 lr: .001
-log_freq: 10
+log_freq: 1
