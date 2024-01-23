@@ -3,12 +3,11 @@ devices: 2
 strategy: ddp
 num_nodes: 1
 
-num_classes: 10
-
 data_dir: ./data
 batch_size: 128
 image_shape: [3, 32, 32]
+num_classes: 10
 
 epochs: 30
 lr: .001
-log_freq: 100
+log_freq: 10

@@ -5,7 +5,6 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 import yaml
-from tqdm import tqdm
 import wandb
 
 
@@ -119,8 +118,10 @@ def train(config):
             if i % config.log_freq == config.log_freq - 1:
                 running_loss /= config.log_freq
                 acc = running_correct / running_total
+                fabric.all_reduce(torch.tensor(running_loss))
+                fabric.all_reduce(torch.tensor(acc))
                 fabric.print(
-                    f"Epoch {epoch} | Batch {i} | Loss: {running_loss:.4f} | Acc: {acc:.2%}"
+                    f"Epoch {epoch} | Batch {i+1} | Loss: {running_loss:.4f} | Acc: {acc:.2%}"
                 )
                 running_loss = 0.0
                 running_correct = 0
