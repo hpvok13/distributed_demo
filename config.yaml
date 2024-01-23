@@ -1,19 +1,14 @@
-model:
-  name: image_classifier
-  architecture: resnet50
-  num_classes: 10
+accelerator: cuda
+devices: 2
+strategy: ddp
+num_nodes: 1
 
-data:
-  train_dir: ./data
-  test_dir: ./data
-  batch_size: 32
-  image_size: [32, 32]
+num_classes: 10
 
-training:
-  epochs: 30
-  learning_rate: .001
-  optimizer: adamw
-  loss_function: cross_entropy
+data_dir: ./data
+batch_size: 128
+image_shape: [3, 32, 32]
 
-evaluation:
-  metrics: [accuracy, precision, recall]
+epochs: 30
+lr: .001
+log_freq: 100
