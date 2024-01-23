@@ -5,14 +5,24 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 import yaml
-from torch.utils.data import random_split
 from tqdm import tqdm
+import wandb
 
 
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__dict__ = self
+
+
+class WandbLogger:
+    def __init__(self, config):
+        wandb.init(project="distributed-demo", config=config)
+        self.config = config
+
+    def log(self, fabric, log_dict):
+        if fabric.is_global_zero:
+            wandb.log(log_dict)
 
 
 # Define the model
@@ -95,7 +105,7 @@ def train(config):
         bar = tqdm(
             train_loader,
             desc=(f"Training | Epoch: {epoch} | Loss: {0:.4f} | Acc: {0:.2%}"),
-            disable=fabric.local_rank != 0,
+            disable=not fabric.is_global_zero,
         )
         for i, (inputs, labels) in tqdm(enumerate(train_loader)):
             outputs = model(inputs)
