@@ -102,12 +102,7 @@ def train(config):
         running_loss = 0.0
         running_correct = 0
         running_total = 0
-        bar = tqdm(
-            train_loader,
-            desc=(f"Training | Epoch: {epoch} | Loss: {0:.4f} | Acc: {0:.2%}"),
-            disable=not fabric.is_global_zero,
-        )
-        for i, (inputs, labels) in tqdm(enumerate(train_loader)):
+        for i, (inputs, labels) in enumerate(train_loader):
             outputs = model(inputs)
             loss = criterion(outputs, labels)
 
@@ -124,12 +119,12 @@ def train(config):
             if i % config.log_freq == config.log_freq - 1:
                 running_loss /= config.log_freq
                 acc = running_correct / running_total
-                bar.set_description(
-                    f"Training | Epoch: {epoch} | "
-                    f"Loss: {running_loss:.4f} | "
-                    f"Acc: {acc:.2%}"
+                fabric.print(
+                    f"Epoch {epoch} | Batch {i} | Loss: {running_loss:.4f} | Acc: {acc:.2%}"
                 )
                 running_loss = 0.0
+                running_correct = 0
+                running_total = 0
 
         # Test loop
         model.eval()
