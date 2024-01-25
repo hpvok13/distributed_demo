@@ -1,12 +1,12 @@
-accelerator: cuda
+accelerator: gpu
 devices: 2
 strategy: ddp
-num_nodes: 1
+num_nodes: 2
 
-data_dir: ./data
+normal_or_raw: normal
+checkpoint_dir: ./checkpoints
 batch_size: 128
-image_shape: [3, 32, 32]
-num_classes: 10
+num_classes: 1000
 
 epochs: 30
 lr: .001

@@ -1,2 +1,4 @@
 /data/
-dist_job.out
+/checkpoints/
+job.out
+/__pycache__/
