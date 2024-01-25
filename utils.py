@@ -41,14 +41,14 @@ def getCIFAR10DataLoaders(data_dir, batch_size):
         train_set,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=0,
+        num_workers=4,
         pin_memory=True,
     )
     test_loader = torch.utils.data.DataLoader(
         test_set,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=0,
+        num_workers=4,
         pin_memory=True,
     )
 
@@ -90,14 +90,14 @@ def getImageNetDataLoaders(data_dir, batch_size):
         train_set,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=0,
+        num_workers=8,
         pin_memory=True,
     )
     val_loader = torch.utils.data.DataLoader(
         val_set,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=0,
+        num_workers=8,
         pin_memory=True,
     )
 
